@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Personal Information</title>
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
+</head>
+<body>
+	<h1>Welcome：{{g.user.username}}</h1>
+	<p>User ID ： # {{g.user.id}}</p>
+	<form name="info" action="/app.py" method="get">
+		<div class="form-group">
+			<label for="inputUserName">Username</label>
+			<input type="text" class="form-control" id="inputUserName" aria-describedby="nameHelp"
+				placeholder="Username">
+		</div>
+		<div class="form-group">
+			<label for="inputPassword">Password</label>
+			<input type="text" class="form-control" id="inputPassword" placeholder="Pasword">
+		</div>
+		<div class="form-group">
+			<label for="inputAge">Age</label>
+			<input type="number" class="form-control" id="inputAge" placeholder="Age">
+		</div>
+		<div class="form-group">
+			<label for="inputGender">Gender</label>
+			<input type="text" class="form-control" id="inputGender" placeholder="Gender">
+		</div>
+		<div class="form-group">
+			<label for="inputIllness">Potential Illness</label>
+			<input type="text" class="form-control" id="inputIllness" placeholder="Potential Illness">
+		</div>
+		<div class="form-group">
+			<label for="inputEM1">Emergency Contact 1</label>
+			<input type="text" class="form-control" id="inputEM1" placeholder="Emergency Contact 1">
+		</div>
+		<div class="form-group">
+			<label for="inputEM2">Emergency Contact 2</label>
+			<input type="text" class="form-control" id="inputEM2" placeholder="Emergency Contact 2">
+		</div>
+		<div class="form-group">
+			<label for="inputEMN">Emergency Phone Number</label>
+			<input type="number" class="form-control" id="inputEMN" placeholder="Emergency Phone Number">
+		</div>
+		<div class="form-check">
+			<label for="inputLocation">Location</label>
+			<input type="text" class="form-control" id="inputLocation" placeholder="Location">
+		</div>
+		<button type="button" class="btn btn-primary" name="submit" id="{{g.user.id}}" onclick="updateInfo()">Update</button>
+	</form>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+	<script>
+		function updateInfo(){
+			console.log("updateInfo() called")
+			var username = document.getElementById('inputUserName').value;
+			var password = document.getElementById('inputPassword').value;
+			var age = document.getElementById('inputAge').value;
+			var gender = document.getElementById('inputGender').value;
+			var potentialIllness = document.getElementById('inputIllness').value;
+			var ec1 = document.getElementById('inputEM1').value;
+			var ec2 = document.getElementById('inputEM2').value;
+			var epn = document.getElementById('inputEMN').value;
+			var location = document.getElementById('inputLocation').value;
+			var _id = document.getElementsByName("submit")[0].id;
+			const params = {_id, username, password, age, gender, potentialIllness, ec1, ec2, epn, location}
+			$.ajax({
+				url: "/update",
+				type: "POST",			
+				contentType: "application/json",
+				data: JSON.stringify(JSON.stringify(params))
+			})
+			alert("Your Information Has Been Updated")
+		}
+	</script>
+	<a href="{{url_for('logout')}}">Logout</a>
+</body>
+</html>
